@@ -6,7 +6,7 @@ with panes. REPL and Shell styles.
 
 REPL commands are designed to work with various Read Eval Print Loops such as
 `python`, `irb` (Ruby), `node` (Javascript), `coffee` (CoffeeScript) etc.
-This is loosely modelled after [SLIME for Emacs][SLIME]. Shell commands are designed 
+This is loosely modelled after [SLIME for Emacs][SLIME]. Shell commands are designed
 to work with normal shells such as `bash`. These are useful for running tests for
 example.
 
@@ -34,7 +34,7 @@ http://ascii.io/a/409
 
 ## Installation
 
-Use [pahtogen][] and put files to
+Use [pathogen][] and put files to
 `$HOME/.vim/bundle/slimux/`
 
 Slimux requires fairly recent tmux version. Be sure you have 1.5.x or later.
@@ -56,13 +56,26 @@ Prompt pane configuration for current buffer.
 
 ## Shell Commands
 
-### SlimuxShellPromt
+### SlimuxShellPrompt
 
-Promt for a shell command and send it to configured tmux pane.
+Prompt for a shell command and send it to configured tmux pane.
 
 ### SlimuxShellLast
 
 Rerun last shell command.
+
+### SlimuxShellRun
+
+Specify a shell command to run directly, without the prompt:
+
+    :SlimuxShellRun rspec spec/foo_spec.rb
+
+Suitable for mapping and other automation.
+
+Note that you need to double any escapes intended for the shell using this command.
+E.g. to list files with actual asterisks in their name:
+
+    :SlimuxShellRun ls \\*
 
 ### SlimuxShellConfigure
 
@@ -117,25 +130,23 @@ You can use [Python][] and [CoffeeScript][] hooks as examples.
 
 ## Other Vim Slime plugins
 
-Before I created this plugin I tried several others, but non of them satisfied me. They where too 
-complicated or just didn't support the languages I needed. So if Slimux isn't your cup of tea, 
+Before I created this plugin I tried several others, but non of them satisfied me. They where too
+complicated or just didn't support the languages I needed. So if Slimux isn't your cup of tea,
 maybe one of these is:
 
-  * https://github.com/jpalardy/vim-slime
-  * https://github.com/benmills/vimux
-  * https://github.com/kikijump/tslime.vim
-  * https://github.com/jgdavey/vim-turbux
-  * http://www.vim.org/scripts/script.php?script_id=2531
-  * https://github.com/ervandew/screen
-  
+  * <https://github.com/jpalardy/vim-slime>
+  * <https://github.com/benmills/vimux>
+  * <https://github.com/kikijump/tslime.vim>
+  * <https://github.com/jgdavey/vim-turbux>
+  * <http://www.vim.org/scripts/script.php?script_id=2531>
+  * <https://github.com/ervandew/screen>
+
 
 
 [tmux]: http://tmux.sourceforge.net/
-[pahtogen]: https://github.com/tpope/vim-pathogen
+[pathogen]: https://github.com/tpope/vim-pathogen
 [vim-slime]: https://github.com/jpalardy/vim-slime
 [SLIME]: http://common-lisp.net/project/slime/
 
 [Python]: https://github.com/epeli/slimux/blob/master/ftplugin/python.vim
 [CoffeeScript]: https://github.com/epeli/slimux/blob/master/ftplugin/coffee.vim
-
-
