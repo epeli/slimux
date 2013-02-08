@@ -206,3 +206,7 @@ command! SlimuxShellPrompt    call SlimuxSendCommand(input("CMD>", s:previous_cm
 command! SlimuxShellLast      call SlimuxSendCommand(s:previous_cmd)
 command! SlimuxShellConfigure call s:SelectPane(s:cmd_packet)
 
+nnoremap <C-c><C-c> :SlimuxREPLSendLine<CR>
+vnoremap <C-c><C-c> :SlimuxREPLSendSelection<CR>
+nnoremap <C-c><C-v> :SlimuxREPLConfigure<CR>
+
