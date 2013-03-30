@@ -174,3 +174,8 @@ maybe one of these is:
 
 [Python]: https://github.com/epeli/slimux/blob/master/ftplugin/python.vim
 [CoffeeScript]: https://github.com/epeli/slimux/blob/master/ftplugin/coffee.vim
+
+## CoffeeScript Notes
+The original slimux was designed to work with the CoffeeScript REPL.  
+If you prefer the node REPL, just set `let g:SlimuxUseNodeReplForCoffee = 1`
+and the CoffeeScript plugin will precompile snippets for you.
