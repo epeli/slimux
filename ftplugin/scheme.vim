@@ -24,7 +24,7 @@
 "       let g:slimux_scheme_keybindings=1
 "
 "   c) To change the default leader, want to change it to ';' for example.
-"       let g:slimux_scheme_leader=";'
+"       let g:slimux_scheme_leader=';'
 "=============================================================================
 
 " Settings {{{1
@@ -48,6 +48,20 @@ if !exists('g:slimux_scheme_keybindings')
     let g:slimux_scheme_keybindings = 0
 endif
 
+" Add scheme support for normal SlimuxSendSelection {{{1
+
+function! SlimuxEscape_scheme(text)
+    " if text does not end with newline, add one
+    if a:text !~ "\n$"
+        let str_ret = a:text . '\n'
+    else
+        let str_ret = a:text
+    endif
+
+    return str_ret
+endfunction
+
+
 " Function Definitions {{{1
 
 " Evaluate a scheme 'define' statement
@@ -58,6 +72,11 @@ function! Slimux_scheme_eval_defun()
     call setpos('.', pos)
 endfunction
 
+" Evaluate the entire buffer
+function! Slimux_scheme_eval_buffer()
+    call SlimuxSendCode(join(getline(1, '$'), "\n") . "\n")
+endfunction
+
 " invoke restart by number
 function! Slimux_scheme_restart_by_number(num)
     let sent_text="(restart ". a:num .")\n"
@@ -66,11 +85,13 @@ endfunction
 
 " Change functions to commands {{{1
 command! SlimuxSchemeEvalDefun call Slimux_scheme_eval_defun()
+command! SlimuxSchemeEvalBuffer call Slimux_scheme_eval_buffer()
 command! -nargs=1 SlimuxSchemeRestartByNum call Slimux_scheme_restart_by_number(<args>)
 
 " Set keybindings {{{1
 if g:slimux_scheme_keybindings == 1
     execute 'noremap <buffer> <silent> ' . g:slimux_scheme_leader.'d :SlimuxSchemeEvalDefun<CR>'
+    execute 'noremap <buffer> <silent> ' . g:slimux_scheme_leader.'b :SlimuxSchemeEvalBuffer<CR>'
     execute 'noremap <buffer> <silent> ' . g:slimux_scheme_leader.'p :SlimuxShellPrompt<CR>'
     execute 'noremap <buffer> <silent> ' . g:slimux_scheme_leader.'k :SlimuxSendKeysPrompt<CR>'
 
