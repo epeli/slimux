@@ -57,7 +57,7 @@ function! s:SelectPane(tmux_packet)
     set filetype=markdown
 
     " Set header for the menu buffer
-    call setline(1, "# Enter: Select pane - Space: Test - Esc/q: Cancel")
+    call setline(1, "# Enter: Select pane - Space: Test - q: Cancel")
     call setline(2, "")
 
     " Add last used pane as the first
@@ -100,9 +100,8 @@ function! s:SelectPane(tmux_packet)
     setlocal nobuflisted nomodifiable noswapfile nowrap
     setlocal cursorline nocursorcolumn
 
-    " Hide buffer on q and <ESC>
+    " Hide buffer on q
     nnoremap <buffer> <silent> q :hide<CR>
-    nnoremap <buffer> <silent> <ESC> :hide<CR>
 
     " Use enter key to pick tmux pane
     nnoremap <buffer> <Enter> :call g:_SlimuxPickPaneFromBuf(g:SlimuxActiveConfigure, 0)<CR>
