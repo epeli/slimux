@@ -137,6 +137,10 @@ function! s:SelectPane(tmux_packet, ...)
         let l:command .= " | grep -E -v " . shellescape("^" . l:current_pane_id, 1)
     endif
 
+    if exists("g:slimux_filter_out_panes")
+      let l:command .= " | grep -v '" . g:slimux_filter_out_panes . "'"
+    endif
+
     " Warn if no additional pane is found
     let l:no_panes_warning = "No additional panes found"
     if s:vim_inside_tmux == 1 && ( exists("g:slimux_select_from_current_window") && g:slimux_select_from_current_window == 1 )
