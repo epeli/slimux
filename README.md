@@ -178,6 +178,11 @@ You can use [Python][] and [CoffeeScript][] hooks as examples.
 - `g:slimux_pane_format` customize the formatting of the panes, see the FORMATS section in `man tmux`.  
   The string "`#{pane_id}: `" is always prepended to the format so Slimux can identify the selected pane.
 
+## Troubleshooting
+
+### Vim freezes after sending line to tmux
+
+See https://github.com/epeli/slimux/issues/61. The workaround consists in adding `setenv -g EVENT_NOEPOLL 1` to your `.tmux.conf`
 
 ## Other Vim Slime plugins
 
