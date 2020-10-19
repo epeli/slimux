@@ -325,7 +325,7 @@ function! SlimuxSendCode(text)
   if !exists("b:code_packet")
     let b:code_packet = { "target_pane": "", "type": "code" }
   endif
-  let b:code_packet["text"] = a:text
+  let b:code_packet["text"] = "\e[200~" . a:text . "\e[201~\r\r"
   call s:Send(b:code_packet)
 endfunction
 
