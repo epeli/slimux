@@ -183,6 +183,9 @@ You can use [Python][] and [CoffeeScript][] hooks as examples.
 - `g:slimux_pane_format` customize the formatting of the panes, see the FORMATS section in `man tmux`.  
   The string "`#{pane_id}: `" is always prepended to the format so Slimux can identify the selected pane.
 
+- `g:slimux_python_ipython = 1` use `%cpaste` of [IPython](http://ipython.org/) to avoid indentation errors. 
+  You need to set this to `1` if you use IPython for an interactive Python session.
+
 
 ## Other Vim Slime plugins
 

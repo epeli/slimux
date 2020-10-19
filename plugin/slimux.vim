@@ -215,8 +215,16 @@ function! s:Send(tmux_packet)
       endif
 
       let named_buffer = s:tmux_version >= '2.0' ? '-b Slimux' : ''
+      if exists('g:slimux_python_ipython')
+        call system(g:slimux_tmux_path . ' load-buffer ' . named_buffer . ' -', '%cpaste')
+        call system(g:slimux_tmux_path . ' paste-buffer ' . named_buffer . ' -t ' . target)
+      endif
       call system(g:slimux_tmux_path . ' load-buffer ' . named_buffer . ' -', text)
       call system(g:slimux_tmux_path . ' paste-buffer ' . named_buffer . ' -t ' . target)
+      if exists('g:slimux_python_ipython')
+        call system(g:slimux_tmux_path . ' load-buffer ' . named_buffer . ' -', '--')
+        call system(g:slimux_tmux_path . ' paste-buffer ' . named_buffer . ' -t ' . target)
+      endif
 
       if type == "code"
         call s:ExecFileTypeFn("SlimuxPost_", [target])

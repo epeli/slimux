@@ -15,6 +15,11 @@ function! SlimuxEscape_python(text)
       return ""
   endif
 
+  "" Use IPython's '%cpaste' if the option set
+  if exists('g:slimux_python_ipython')
+    return no_empty_lines
+  endif
+
   "" Process line by line and insert needed linebreaks
   let l:non_processed_lines = split(no_empty_lines,"")
   let l:processed_lines = [l:non_processed_lines[0]]
