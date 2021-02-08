@@ -4,7 +4,7 @@ let w:slimux_python_allowed_indent0 = ["elif", "else", "except", "finally"]
 
 function! SlimuxEscape_python(text)
   "" Check if last line is empty in multiline selections
-  let l:last_line_empty = match(a:text,'\n\W*\n$') 
+  let l:last_line_empty = match(a:text,'\n\W*\n$')
 
   "" Remove all empty lines and use soft linebreaks
   let no_empty_lines = substitute(a:text, '\n\s*\ze\n', "", "g")
@@ -15,8 +15,29 @@ function! SlimuxEscape_python(text)
       return ""
   endif
 
+  " Remove whole text indentation according to the first line
+  let l:lines = split(no_empty_lines,"")
+  let l:nlines = len(l:lines)
+  let l:first_indent = matchstr(l:lines[0],'^[ \t]\+')
+  if l:first_indent != ""
+      let n = strlen(l:first_indent)
+      let l:nlines = len(l:lines)
+      let il = 1
+      while il < l:nlines
+          if strpart(l:lines[il], 0, n) != l:first_indent | break | endif
+          let il += 1
+      endwhile
+      if il == l:nlines
+          let il = 0
+          while il < l:nlines
+              let l:lines[il] = strpart(l:lines[il], n)
+              let il += 1
+          endwhile
+      endif
+  endif
+
   "" Process line by line and insert needed linebreaks
-  let l:non_processed_lines = split(no_empty_lines,"")
+  let l:non_processed_lines = l:lines
   let l:processed_lines = [l:non_processed_lines[0]]
   " Check initial indent level
   let l:first_word = matchstr(l:processed_lines[0],'^[a-zA-Z\"]\+')
@@ -26,7 +47,7 @@ function! SlimuxEscape_python(text)
       let l:at_indent0 = 0
   endif
   " Only actually anything to do if more than one line
-  if len(l:non_processed_lines) > 1
+  if l:nlines > 1
       " Go through remaining lines
       for cur_line in l:non_processed_lines[1:]
           let l:first_word = matchstr(cur_line,'^[a-zA-Z\"]\+')
