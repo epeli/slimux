@@ -225,7 +225,7 @@ function! s:Send(tmux_packet)
     elseif type == 'keys'
 
       let keys = a:tmux_packet["keys"]
-      call system(g:slimux_tmux_path . ' send-keys -t " . target . " " . keys)
+      call system(g:slimux_tmux_path . " send-keys -t " . target . " " . keys)
 
     endif
 
