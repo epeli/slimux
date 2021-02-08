@@ -405,4 +405,5 @@ command! SlimuxSendKeysConfigure call s:SelectPane(s:keys_packet)
 let s:global_conf = { "target_pane": "", "type": "global" }
 
 command! SlimuxGlobalConfigure call s:SelectPane(s:global_conf)
+command! SlimuxGlobalConfigureLastBuffer call s:SelectPane(s:global_conf, s:last_selected_pane)
 command! -nargs=? -complete=customlist,SlimuxGetPaneList SlimuxShellConfigure call s:SelectPane(s:cmd_packet, <q-args>)
