@@ -1,13 +1,42 @@
 " These python keywords should not have extra newline at indentation level 0
 let w:slimux_python_allowed_indent0 = ["elif", "else", "except", "finally"]
 
+function! s:ShiftLeft(text, num)
+  if a:num <= 0
+      return a:text
+  endif
+  let l:result = substitute(a:text, '\v(^|\r?\n)\zs\s{1,' . a:num . '}', "", "g")
+  return l:result
+endfunction
+
+function! s:CheckLeastIndent(text)
+  let lines = split(a:text, '\n')
+  let num_indent = len(a:text)
+  for line in lines
+      if match(line, '^\s*$') >= 0
+          continue
+      endif
+      let indent = matchstr(line, '^\s*')
+      let new_indent = len(indent)
+      if new_indent >= 0 && new_indent < num_indent
+          let num_indent = new_indent
+      endif
+  endfor
+  return num_indent
+endfunction
 
 function! SlimuxEscape_python(text)
+  " Remove Indent according to
+
+  let notab_text = substitute(a:text, '\t', repeat(' ', &tabstop), 'g')
+  let num_indent = s:CheckLeastIndent(notab_text)
+  let l:shifted_text = s:ShiftLeft(notab_text, num_indent)
+
   "" Check if last line is empty in multiline selections
-  let l:last_line_empty = match(a:text,'\n\W*\n$') 
+  let l:last_line_empty = match(l:shifted_text,'\n\W*\n$')
 
   "" Remove all empty lines and use soft linebreaks
-  let no_empty_lines = substitute(a:text, '\n\s*\ze\n', "", "g")
+  let no_empty_lines = substitute(l:shifted_text, '\n\s*\ze\n', "", "g")
   let no_empty_lines = substitute(no_empty_lines, "\n", "", "g")
 
   "" See if any non-empty lines sent at all
