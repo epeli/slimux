@@ -1,6 +1,13 @@
 " These python keywords should not have extra newline at indentation level 0
 let w:slimux_python_allowed_indent0 = ["elif", "else", "except", "finally"]
 
+if !exists('g:slimux_python_use_ipython')
+    let g:slimux_python_use_ipython = 0
+endif
+
+if g:slimux_python_use_ipython == 1
+    let g:slimux_python_paste_options = "-p"
+endif
 
 function! SlimuxEscape_python(text)
   "" Check if last line is empty in multiline selections
@@ -53,12 +60,20 @@ function! SlimuxEscape_python(text)
       endfor
   endif
 
+  let l:result = join(l:processed_lines,"")
+
   "" Return the processed lines
   if !l:at_indent0 && l:last_line_empty >= 0
       " We ended at indentation and last line was empty
-      return join(l:processed_lines,"").""
-  else
-      return join(l:processed_lines,"").""
+      let l:result .= ""
+  elseif g:slimux_python_use_ipython && l:at_indent0 && l:last_line_empty < 0 && len(l:non_processed_lines) > 1
+      let l:result .= ""
   endif
+
+  return l:result
+endfunction
+
+function! SlimuxPost_python(target_pane)
+    call system("tmux send-keys -t " . a:target_pane . " Enter")
 endfunction
 

@@ -215,8 +215,9 @@ function! s:Send(tmux_packet)
       endif
 
       let named_buffer = s:tmux_version >= '2.0' ? '-b Slimux' : ''
+      let paste_options = s:GetFileTypeOption('paste_options', '')
       call system(g:slimux_tmux_path . ' load-buffer ' . named_buffer . ' -', text)
-      call system(g:slimux_tmux_path . ' paste-buffer ' . named_buffer . ' -t ' . target)
+      call system(g:slimux_tmux_path . ' paste-buffer ' . named_buffer . ' -t ' . target . ' ' . paste_options)
 
       if type == "code"
         call s:ExecFileTypeFn("SlimuxPost_", [target])
@@ -253,6 +254,18 @@ function! s:ExecFileTypeFn(fn_name, args)
   return result
 endfunction
 
+" dynamically get option values.
+" Ex: GetFileTypeOption("paste_options", "default") will retrieve values for
+" g:slimux_python_paste_options if it is defined, otherwise return "default"
+function! s:GetFileTypeOption(opt_name, default)
+    let result = a:default
+    if exists("&filetype")
+        let option = "g:slimux_" . &filetype . "_" . a:opt_name
+        if exists(option)
+            let result = {option}
+    endif
+    return result
+endfunction
 
 " Thanks to http://vim.1045645.n5.nabble.com/Is-there-any-way-to-get-visual-selected-text-in-VIM-script-td1171241.html#a1171243
 function! s:GetVisual() range
