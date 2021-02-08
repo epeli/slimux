@@ -3,7 +3,7 @@
 " License: MIT. See LICENSE
 
 if !exists('g:slimux_tmux_path')
-    let g:slimux_tmux_path = substitute(system('command -v tmux'), '\n\+$', '', '')
+    let g:slimux_tmux_path = substitute(system('whereis tmux'), '^tmux: \(\S\+\) .*$', '\1', '')
 endif
 if $PREFERRED_TMUX != ''
     let g:tmux_preferred_cmd = ''
