@@ -66,7 +66,7 @@ endif
 function! SlimuxEscape_racket(text)
     " if text does not end with newline, add one
     if a:text !~ "\n$"
-        let str_ret = a:text . '\n'
+        let str_ret = a:text . "\n"
     else
         let str_ret = a:text
     endif
