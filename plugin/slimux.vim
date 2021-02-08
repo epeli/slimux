@@ -141,7 +141,7 @@ function! s:SelectPane(tmux_packet, ...)
         " Remove current pane from pane list
         let l:current_pane_id = system(g:slimux_tmux_path . ' display-message -p "\#{pane_id}"')
         let l:current_pane_id = substitute(l:current_pane_id, "\n", "", "g")
-        let l:command .= " | grep -E -v " . shellescape("^" . l:current_pane_id, 1)
+        let l:command .= " | grep -E -v " . shellescape("^" . l:current_pane_id . ":", 1)
     endif
 
     " Warn if no additional pane is found
